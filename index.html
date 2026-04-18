@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日新闻</title>
+    <link rel="icon" href="https://via.placeholder.com/32x32" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>每日新闻</h1>
+        <div class="category-selector">
+            <button class="category-btn active" data-category="guonei">国内新闻</button>
+            <button class="category-btn" data-category="ai">AI资讯</button>
+        </div>
+    </header>
+    <main>
+        <div class="news-container" id="news-container"></div>
+        <div class="loading" id="loading">加载中...</div>
+    </main>
+    <footer>
+        <p>© 2026 每日新闻</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
