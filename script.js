@@ -94,7 +94,14 @@ async function fetchNews() {
                     renderNews(response.data.result.newslist);
                 } else {
                     showError('新闻数据格式错误');
-                    renderNews(testDataGuonei);
+                    // 根据当前分类使用对应的测试数据
+                    if (currentCategory === 'ai') {
+                        console.log('使用AI资讯测试数据');
+                        renderNews(testDataAI);
+                    } else {
+                        console.log('使用国内新闻测试数据');
+                        renderNews(testDataGuonei);
+                    }
                 }
             }
         } else {
@@ -103,7 +110,14 @@ async function fetchNews() {
             console.log('使用测试数据');
             if (config.type === 'newslist') {
                 console.log('渲染新闻列表测试数据');
-                renderNews(testDataGuonei);
+                // 根据当前分类使用对应的测试数据
+                if (currentCategory === 'ai') {
+                    console.log('使用AI资讯测试数据');
+                    renderNews(testDataAI);
+                } else {
+                    console.log('使用国内新闻测试数据');
+                    renderNews(testDataGuonei);
+                }
             }
         }
     } catch (error) {
@@ -112,7 +126,14 @@ async function fetchNews() {
         console.log('使用测试数据');
         if (config.type === 'newslist') {
             console.log('渲染新闻列表测试数据');
-            renderNews(testDataGuonei);
+            // 根据当前分类使用对应的测试数据
+            if (currentCategory === 'ai') {
+                console.log('使用AI资讯测试数据');
+                renderNews(testDataAI);
+            } else {
+                console.log('使用国内新闻测试数据');
+                renderNews(testDataGuonei);
+            }
         }
     } finally {
         isLoading = false;
@@ -132,6 +153,24 @@ function renderNews(newsList) {
     newsList.forEach(news => {
         const newsItem = document.createElement('div');
         newsItem.className = 'news-item';
+        newsItem.style.cursor = 'pointer';
+        newsItem.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+        
+        // 添加点击事件
+        newsItem.addEventListener('click', function() {
+            window.open(news.url, '_blank', 'noopener,noreferrer');
+        });
+        
+        // 鼠标悬停效果
+        newsItem.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        });
+        
+        newsItem.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+        });
         
         const defaultImage = 'https://via.placeholder.com/300x180?text=No+Image';
         const imageUrl = news.picUrl || defaultImage;
