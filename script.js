@@ -11,10 +11,18 @@ const API_CONFIG = {
     ai: {
         url: 'https://apis.tianapi.com/ai/index',
         type: 'newslist'
+    },
+    huabian: {
+        url: 'https://apis.tianapi.com/huabian/index',
+        type: 'newslist'
+    },
+    internet: {
+        url: 'https://apis.tianapi.com/internet/index',
+        type: 'newslist'
     }
 };
 
-let currentCategory = 'guonei';
+let currentCategory = 'internet';
 let isLoading = false;
 
 // DOM元素
@@ -74,12 +82,17 @@ async function fetchNews() {
         
         if (response.data.code === 200 && response.data.result) {
             if (config.type === 'newslist') {
-                if (response.data.result.newslist) {
-                    renderNews(response.data.result.newslist);
+                let newsList = response.data.result.newslist || response.data.result.list;
+                if (newsList && newsList.length > 0) {
+                    renderNews(newsList);
                 } else {
                     showError('新闻数据格式错误');
                     if (currentCategory === 'ai') {
                         renderNews(testDataAI);
+                    } else if (currentCategory === 'huabian') {
+                        renderNews(testDataHuabian);
+                    } else if (currentCategory === 'internet') {
+                        renderNews(testDataInternet);
                     } else {
                         renderNews(testDataGuonei);
                     }
@@ -90,6 +103,10 @@ async function fetchNews() {
             if (config.type === 'newslist') {
                 if (currentCategory === 'ai') {
                     renderNews(testDataAI);
+                } else if (currentCategory === 'huabian') {
+                    renderNews(testDataHuabian);
+                } else if (currentCategory === 'internet') {
+                    renderNews(testDataInternet);
                 } else {
                     renderNews(testDataGuonei);
                 }
@@ -100,6 +117,10 @@ async function fetchNews() {
         if (config.type === 'newslist') {
             if (currentCategory === 'ai') {
                 renderNews(testDataAI);
+            } else if (currentCategory === 'huabian') {
+                renderNews(testDataHuabian);
+            } else if (currentCategory === 'internet') {
+                renderNews(testDataInternet);
             } else {
                 renderNews(testDataGuonei);
             }
@@ -191,6 +212,68 @@ const testDataGuonei = [
         "source": "中华国内",
         "picUrl": "https://img3.utuku.imgcdc.com/300x200/news/20260418/b918ce49-bee9-404e-8666-ed9761a52188.jpg",
         "url": "https://news.china.com/domestic/945/20260418/49427084.html"
+    }
+];
+
+// 测试数据 - 娱乐新闻
+const testDataHuabian = [
+    {
+        "id": "8b4fbf4a76de6b4625e6480e972b8a9d",
+        "ctime": "2026-04-19 08:30",
+        "title": "她没靠颜值没靠关系，39岁凭实力杀进央视春晚，打脸所有质疑者",
+        "description": "",
+        "source": "网易明星",
+        "picUrl": "https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2026%2F0418%2Fbe2ef9a0j00tdoo9b002qd000mh00vim.jpg&thumbnail=130y90&quality=100&type=jpg",
+        "url": "https://www.163.com/dy/article/KQQJRVH005529WGR.html"
+    },
+    {
+        "id": "2819fe67688df8a5ba47374bc5e75921",
+        "ctime": "2026-04-19 07:55",
+        "title": "1995年，邓丽君去世，成龙未参加葬礼，巩俐送花圈：永远的歌迷",
+        "description": "",
+        "source": "网易明星",
+        "picUrl": "https://nimg.ws.126.net/?url=http%3A%2F%2Fbjnewsrec-cv.ws.126.net%2Flittle777994fb19bj00tdbwkj002bd000r400xrp.jpg&thumbnail=130y90&quality=100&type=jpg",
+        "url": "https://www.163.com/dy/article/KQ8ROAA00543E35G.html"
+    },
+    {
+        "id": "b50eb83c728de89e795d571de9804bee",
+        "ctime": "2026-04-19 01:04",
+        "title": "热搜爆一！何润东再扮项羽鼓舞宿迁队碾压零封南京队",
+        "description": "",
+        "source": "网易明星",
+        "picUrl": "https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2026%2F0419%2F13debef0j00tdp8qr001sd000s300byg.jpg&thumbnail=130y90&quality=100&type=jpg",
+        "url": "https://www.163.com/dy/article/KQRD5OH30553BELO.html"
+    }
+];
+
+// 测试数据 - 互联网资讯
+const testDataInternet = [
+    {
+        "id": "534fb24871a32ceaf865040eb228e040",
+        "ctime": "2026-04-19 11:29",
+        "title": "36亿元巨额罚单 7大平台因幽灵外卖被罚",
+        "description": "",
+        "source": "网易互联网",
+        "picUrl": "https://nimg.ws.126.net/?url=http%3A%2F%2Fbjnewsrec-cv.ws.126.net%2Flittle34094b4c1c4j00tdpv70001ad200u000aug014000eg.jpg&thumbnail=200y140&quality=100&type=jpg",
+        "url": "https://www.163.com/dy/article/KQSGUH210514EGPO.html"
+    },
+    {
+        "id": "40d5d1fb3e4527375feccba85ed9610a",
+        "ctime": "2026-04-19 09:09",
+        "title": "百万Token白烧？Claude官方下场：5招治好上下文",
+        "description": "",
+        "source": "网易互联网",
+        "picUrl": "https://nimg.ws.126.net/?url=http%3A%2F%2Fbjnewsrec-cv.ws.126.net%2Flittle34094b4c1c4j00tdpv70001ad200u000aug014000eg.jpg&thumbnail=200y140&quality=100&type=jpg",
+        "url": "https://www.163.com/dy/article/KQS8TSI60511ABV6.html"
+    },
+    {
+        "id": "8a94368750252d164b8f6dfd685b953c",
+        "ctime": "2026-04-18 23:26",
+        "title": "57岁雷军拼了！从北京到上海直播近15个小时回击",
+        "description": "",
+        "source": "网易互联网",
+        "picUrl": "https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2026%2F0418%2F554a492cj00tdp3xw0015d000j600asm.jpg&thumbnail=200y140&quality=100&type=jpg",
+        "url": "https://www.163.com/dy/article/KQR722E20539ARRF.html"
     }
 ];
 
