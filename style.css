@@ -119,6 +119,13 @@ main {
     object-fit: cover;
     border-radius: 4px;
     margin-bottom: 0.75rem;
+    background-color: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+    .news-image {
+        height: 150px;
+    }
 }
 
 .news-link {

@@ -28,13 +28,9 @@ function init() {
     categoryBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const category = this.dataset.category;
-            console.log('点击分类按钮:', category);
-            console.log('当前分类:', currentCategory);
             if (category !== currentCategory) {
-                console.log('更新分类为:', category);
                 currentCategory = category;
                 updateCategoryButtons(this);
-                console.log('更新后分类:', currentCategory);
                 fetchNews();
             }
         });
@@ -58,10 +54,6 @@ async function fetchNews() {
     loadingElement.style.display = 'block';
     newsContainer.innerHTML = '';
     
-    console.log('当前分类:', currentCategory);
-    console.log('API_CONFIG:', API_CONFIG);
-    console.log('API_CONFIG[currentCategory]:', API_CONFIG[currentCategory]);
-    
     const config = API_CONFIG[currentCategory];
     if (!config) {
         showError('无效的分类');
@@ -71,10 +63,6 @@ async function fetchNews() {
     }
     
     try {
-        console.log('开始请求API:', config.url);
-        console.log('API密钥:', API_KEY);
-        console.log('分类:', currentCategory);
-        
         const response = await axios({
             method: 'post',
             url: config.url,
@@ -84,54 +72,35 @@ async function fetchNews() {
             }
         });
         
-        console.log('API响应:', response.data);
-        
         if (response.data.code === 200 && response.data.result) {
-            console.log('使用API数据');
             if (config.type === 'newslist') {
-                console.log('渲染新闻列表数据');
                 if (response.data.result.newslist) {
                     renderNews(response.data.result.newslist);
                 } else {
                     showError('新闻数据格式错误');
-                    // 根据当前分类使用对应的测试数据
                     if (currentCategory === 'ai') {
-                        console.log('使用AI资讯测试数据');
                         renderNews(testDataAI);
                     } else {
-                        console.log('使用国内新闻测试数据');
                         renderNews(testDataGuonei);
                     }
                 }
             }
         } else {
-            console.error('API返回错误:', response.data);
             showError(`获取数据失败: ${response.data.msg || '未知错误'}`);
-            console.log('使用测试数据');
             if (config.type === 'newslist') {
-                console.log('渲染新闻列表测试数据');
-                // 根据当前分类使用对应的测试数据
                 if (currentCategory === 'ai') {
-                    console.log('使用AI资讯测试数据');
                     renderNews(testDataAI);
                 } else {
-                    console.log('使用国内新闻测试数据');
                     renderNews(testDataGuonei);
                 }
             }
         }
     } catch (error) {
-        console.error('请求数据失败:', error);
         showError(`网络错误: ${error.message || '未知错误'}`);
-        console.log('使用测试数据');
         if (config.type === 'newslist') {
-            console.log('渲染新闻列表测试数据');
-            // 根据当前分类使用对应的测试数据
             if (currentCategory === 'ai') {
-                console.log('使用AI资讯测试数据');
                 renderNews(testDataAI);
             } else {
-                console.log('使用国内新闻测试数据');
                 renderNews(testDataGuonei);
             }
         }
@@ -172,12 +141,10 @@ function renderNews(newsList) {
             this.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
         });
         
-        const defaultImage = 'https://via.placeholder.com/300x180?text=No+Image';
+        const defaultImage = '';
         const imageUrl = news.picUrl || defaultImage;
         
-        console.log('图片URL:', imageUrl);
-        
-        const imageHtml = `<img src="${imageUrl}" alt="${news.title}" class="news-image" style="display:block;width:100%;height:180px;object-fit:cover;margin-bottom:10px;">`;
+        const imageHtml = `<img src="${imageUrl}" alt="${news.title}" class="news-image">`;
         
         newsItem.innerHTML = `
             <div class="news-content">
@@ -230,31 +197,31 @@ const testDataGuonei = [
 // 测试数据 - AI资讯
 const testDataAI = [
     {
-        "id": "6b5f6248abad27721c0b4b1276a7a101",
-        "url": "https://www.admin5.com/article/20210203/985641.shtml",
-        "ctime": "2021-02-03 14:56",
-        "title": "亮风台与蕴硕物联达成战略合作，共同打造AR+工业互联网解决方案",
-        "picUrl": "https://a5img.pncdn.cn/2021/0203/1612335399721.png?x-oss-process=image/resize,m_fixed,w_220,h_120",
-        "source": "A5智能",
-        "description": "A5智能"
+        "id": "418233fad22c81777ab41f4ced70095e",
+        "ctime": "2026-04-18 11:00",
+        "title": "消息称马斯克 xAI 进军 AI 智能编程领域，有望下周发布 Grok Build",
+        "description": "科技媒体testingcatalog昨日（4月17日）发布博文，报道称埃隆·马斯克（ElonMusk）旗下xAI公司有望进军智能编程领域，会在近期推出GrokBuild与GrokCLI两款产品。",
+        "source": "IT家人工智能",
+        "picUrl": "https://img.ithome.com/newsuploadfiles/thumbnail/2026/4/940638_240.jpg?x-bce-process=image/format,f_auto",
+        "url": "https://www.ithome.com/0/940/638.htm"
     },
     {
-        "id": "ce30a5a644ae602668e4041c5b2e1cad",
-        "url": "https://www.admin5.com/article/20210202/985464.shtml",
-        "ctime": "2021-02-02 09:37",
-        "title": "粤云互联烽火台：应用性能全面监控，AI智能告警",
-        "picUrl": "https://a5img.pncdn.cn/2021/0202/1612229820668.png?x-oss-process=image/resize,m_fixed,w_220,h_120",
-        "source": "A5智能",
-        "description": "A5智能"
+        "id": "4a7a869dc54f27e6cb728f4bd8c152ba",
+        "ctime": "2026-04-18 10:00",
+        "title": "Cloudflare 公测邮件服务，AI 智能体可原生收发邮件",
+        "description": "Cloudflare于4月16日发布公告，宣布其邮件服务进入公开测试阶段，为AI智能体提供原生邮件收发能力。",
+        "source": "IT家人工智能",
+        "picUrl": "https://img.ithome.com/newsuploadfiles/thumbnail/2026/4/940627_240.jpg?x-bce-process=image/format,f_auto",
+        "url": "https://www.ithome.com/0/940/627.htm"
     },
     {
-        "id": "8fd61458381d65afe7e1cc87cdffc316",
-        "url": "https://www.admin5.com/article/20210127/984931.shtml",
-        "ctime": "2021-01-27 14:14",
-        "title": "普渡机器人入驻傣妹火锅！科技赋能品牌升级",
-        "picUrl": "https://a5img.pncdn.cn/2021/0127/1611728068143.png?x-oss-process=image/resize,m_fixed,w_220,h_120",
-        "source": "A5智能",
-        "description": "A5智能"
+        "id": "d9abf6b00648a80145eec1489228aab1",
+        "ctime": "2026-04-18 10:00",
+        "title": "消息称 Meta 下月启动首轮大裁员，10% 员工成 AI 发展“牺牲品”",
+        "description": "其中一位知情人士表示，首轮裁员规模约为全球员工总数的10%，接近8000人。",
+        "source": "IT家人工智能",
+        "picUrl": "https://img.ithome.com/newsuploadfiles/thumbnail/2026/4/940628_240.jpg?x-bce-process=image/format,f_auto",
+        "url": "https://www.ithome.com/0/940/628.htm"
     }
 ];
 
