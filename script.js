@@ -162,10 +162,10 @@ function renderNews(newsList) {
             this.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
         });
         
-        const defaultImage = '';
+        const defaultImage = 'https://picsum.photos/300/180';
         const imageUrl = news.picUrl || defaultImage;
         
-        const imageHtml = `<img src="${imageUrl}" alt="${news.title}" class="news-image">`;
+        const imageHtml = `<img src="${imageUrl}" alt="${news.title}" class="news-image" onerror="this.src='${defaultImage}'">`;
         
         newsItem.innerHTML = `
             <div class="news-content">
